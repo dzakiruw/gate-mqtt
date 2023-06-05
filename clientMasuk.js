@@ -3,10 +3,14 @@ const mqtt = require("mqtt");
 let client = mqtt.connect("mqtt://broker.hivemq.com");
 
 client.on("connect", function () {
+  // Argumen input dari terminal
+  let id_kartu_akses = process.argv[2];
+  let id_register_gate = process.argv[3];
+
   // Buat payload untuk masuk
   let payloadMasuk = JSON.stringify({
-    id_kartu_akses: "1212121212",
-    id_register_gate: "44",
+    id_kartu_akses: id_kartu_akses,
+    id_register_gate: id_register_gate,
   });
 
   // Publish pesan ke topik 'access/masuk'
