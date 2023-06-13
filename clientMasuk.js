@@ -1,6 +1,6 @@
 const mqtt = require("mqtt");
 
-let client = mqtt.connect("mqtt://broker.hivemq.com");
+let client = mqtt.connect("mqtt://10.15.43.76:1883"); // Alamat broker MQTT Anda
 
 client.on("connect", function () {
   // Argumen input dari terminal
