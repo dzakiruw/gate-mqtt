@@ -237,7 +237,7 @@ async function masuk(message) {
           client.publish("access/response", "0");
         } else if (result.rowsAffected[0] == 1) {
           // If id register gate is valid and active
-          // client.publish("access/response", "1");
+          client.publish("access/response", "1");
         } else {
           // If id register gate is valid but inactive
           //   log("log_masuk", 1, id_register_gate, id_kartu_akses);
