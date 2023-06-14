@@ -1,7 +1,7 @@
 const mqtt = require("mqtt");
 const pool = require("../database/index");
 
-let client = mqtt.connect("mqtt://10.15.43.76:1883"); // Alamat broker MQTT Anda
+let client = mqtt.connect("mqtt://localhost:1883"); // Alamat broker MQTT Anda
 
 client.on("connect", () => {
   console.log("Connected to MQTT Broker");
@@ -72,8 +72,8 @@ async function keluar(message) {
         kartu_akses = result.recordset[0]; // Save the result regardless of its "is_aktif" status
         if (!kartu_akses.is_aktif) {
           // If id kartu akses is valid but inactive
-          client.publish("access/response", "0");
-          log("log_keluar", 0, id_register_gate, id_kartu_akses); // log action when is_aktif is 0
+          //client.publish("access/response", "0");
+          //log("log_keluar", 0, id_register_gate, id_kartu_akses); // log action when is_aktif is 0
         }
       }
       resolve();
@@ -128,17 +128,13 @@ async function keluar(message) {
           reject(err);
           return;
         }
-        if (result.rowsAffected[0] != 1) {
-          // If id register gate is invalid
+        if (result.rowsAffected[0] != 1 || kartu_akses.is_aktif == 0) {
+          // If id register gate is invalid or card is not active
           client.publish("access/response", "0");
         } else if (result.rowsAffected[0] == 1) {
           // If id register gate is valid and active
           client.publish("access/response", "1");
-        } else {
-          // If id register gate is valid but inactive
-          //   log("log_masuk", 1, id_register_gate, id_kartu_akses);
-          client.publish("access/response", "0");
-        }
+        }   
         resolve();
       });
     });
@@ -176,8 +172,8 @@ async function masuk(message) {
         kartu_akses = result.recordset[0]; // Save the result regardless of its "is_aktif" status
         if (!kartu_akses.is_aktif) {
           // If id kartu akses is valid but inactive
-          client.publish("access/response", "0");
-          log("log_masuk", 0, id_register_gate, id_kartu_akses); // log action when is_aktif is 0
+         // client.publish("access/response", "0");
+          //log("log_masuk", 0, id_register_gate, id_kartu_akses); // log action when is_aktif is 0
         }
       }
       resolve();
@@ -232,17 +228,13 @@ async function masuk(message) {
           reject(err);
           return;
         }
-        if (result.rowsAffected[0] != 1) {
-          // If id register gate is invalid
+        if (result.rowsAffected[0] != 1 || kartu_akses.is_aktif == 0) {
+          // If id register gate is invalid or card is not active
           client.publish("access/response", "0");
         } else if (result.rowsAffected[0] == 1) {
           // If id register gate is valid and active
           client.publish("access/response", "1");
-        } else {
-          // If id register gate is valid but inactive
-          //   log("log_masuk", 1, id_register_gate, id_kartu_akses);
-          client.publish("access/response", "0");
-        }
+        }        
         resolve();
       });
     });
