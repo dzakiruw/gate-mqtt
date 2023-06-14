@@ -1,7 +1,7 @@
 const mqtt = require("mqtt");
 const pool = require("../database/index");
 
-let client = mqtt.connect("mqtt://localhost:1883"); // Alamat broker MQTT Anda
+let client = mqtt.connect("mqtt://10.15.43.76:1883"); // Alamat broker MQTT Anda
 
 client.on("connect", () => {
   console.log("Connected to MQTT Broker");
